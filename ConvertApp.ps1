@@ -1,5 +1,8 @@
 # App Conversion Powershell script. Automates the manual commands you use 
 # To convert Win32 apps to UWP using the Desktop Bridge.
+#
+# To execute, go to the top level of your app package directory (one above the AppxManifest.xml file)
+# and run this script. This relies on the top level directory being named the same as the AppId
 
 function ConvertApp ([string]$name) {
     makeappx.exe pack /d ".\$name\" /p "$name.appx" /l;
@@ -9,7 +12,9 @@ function ConvertApp ([string]$name) {
     Write-Output "Finished!";
 }
 
-# Just an AppId
+# Passed an AppId
 if ($args.Length -eq 1) { 
     ConvertApp($args[0]);
+} elseif ($args.length -gt 1) {
+    # TODO allow for separate publisher name to be passed.
 }
