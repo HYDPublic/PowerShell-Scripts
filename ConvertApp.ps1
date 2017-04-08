@@ -9,19 +9,38 @@
 #     exit
 # }
 
-# Figure out optional params
-function ConvertApp ([string]$name) {
-    makeappx.exe pack /d ".\$name\" /p "$name.appx" /l;
-    makecert.exe -r -h 0 -n "CN=$name" -eku 1.3.6.1.5.5.7.3.3 -pe -sv "$name.pvk" "$name.cer";
-    pvk2pfx.exe -pvk "$name.pvk" -spc "$name.cer" -pfx "$name.pfx";
-    certutil.exe -addStore TrustedPeople "$name.cer"
-    signtool.exe sign -f "$name.pfx" -fd SHA256 -v ".\$name.appx";
-    Write-Output "Finished!";
+# TODO optional params
+# TODO run certutil as admin always? 
+function ConvertApp {
+    param([string]$name, [string]$publisher) 
+    Write-Output "Name: $name, Publisher $publisher";
+    # makeappx.exe pack /l /d ".\$name\" /p "$name.appx";
+    
+    # if ($publisher -ne $null) {
+    #     # Can we run makecert with default "none" so no window pops up?
+    #     makecert.exe -r -h 0 -n "CN=$publisher" -eku 1.3.6.1.5.5.7.3.3 -pe -sv "$name.pvk" "$name.cer";
+    # } else {
+    #     makecert.exe -r -h 0 -n "CN=$name" -eku 1.3.6.1.5.5.7.3.3 -pe -sv "$name.pvk" "$name.cer";
+    # }
+    # pvk2pfx.exe -pvk "$name.pvk" -spc "$name.cer" -pfx "$name.pfx";
+    # certutil.exe -addStore TrustedPeople "$name.cer"
+    # signtool.exe sign -f "$name.pfx" -fd SHA256 -v ".\$name.appx";
+    # Write-Output "Finished!";
+}
+
+function Output-SalesTax
+{
+ param( [int]$Price, [int]$Tax )
+ $Price + $Tax
 }
 
 # Passed an AppId
-if ($args.Length -eq 1) { 
-    ConvertApp($args[0]);
+if ($args.Length -eq 0) {
+    Write-Output "Please provide an AppId."
+} elseif ($args.Length -eq 1) { 
+    Write-Output "0: $args[0]"
+    # ConvertApp($args[0]);
 } elseif ($args.length -gt 1) {
-    # TODO allow for separate publisher name to be passed.
+    Write-Output "0: $args[0], 1 $args[1]";  
+    # ConvertApp($args[0], $args[1]);
 }
