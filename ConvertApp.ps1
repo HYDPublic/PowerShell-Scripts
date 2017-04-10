@@ -5,6 +5,15 @@
 # and run this script. This relies on the top level directory being named the same as the AppId
 #
 # TODO run certutil as admin always? 
+
+# If (-NOT ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator"))
+
+# {   
+#     $arguments = "& '" + $myinvocation.mycommand.definition + "'"
+#     Start-Process powershell -Verb runAs -ArgumentList $arguments
+#     Break
+# }
+
 function ConvertApp ($name, $publisher) {
     makeappx.exe pack /l /d ".\$name\" /p "$name.appx";
     
