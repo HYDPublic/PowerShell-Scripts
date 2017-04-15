@@ -1,11 +1,11 @@
 # Shortcut for running the DAC tool, just pass appropriate file names
 
 function RunDAC($installer, $destination, $name, $publisher, $version) {
-    Write-Output "Installer = " $installer
-    Write-Output "Destination = " $destination
-    Write-Output "PackageName = " $name;
-    Write-Output "Publisher = " $publisher
-    Write-Output "Version = " $version    
+    Write-Output "Installer = $installer"
+    Write-Output "Destination = $destination"
+    Write-Output "PackageName = $name"
+    Write-Output "Publisher = $publisher"
+    Write-Output "Version = $version"    
     
     DesktopAppConverter.exe `
         -Installer $installer `
